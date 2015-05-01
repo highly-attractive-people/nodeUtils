@@ -1,4 +1,4 @@
-var assert = require('assert');
+var assert = require('chai').assert;
 var url = require('..').url;
 
 describe('url.getPath', function() {
@@ -15,11 +15,23 @@ describe('url.getPath', function() {
       url.getPath('');
     }), Error, 'URL "" did not have a valid path.');
   });
+
+  it('should throw type error when URL is invalid variable type', function() {
+    assert.throws(function(){
+      url.getPath(1);
+    }, TypeError, "Parameter 'url' must be a string, not number");
+  });
 });
 
 describe('url.replaceBaseWith', function() {
   it('should replace base URL', function() {
     assert.equal(url.replaceBaseWith('http://nbc.com/foo/bar/baz', 'http://localhost:3000/'), 'http://localhost:3000/foo/bar/baz');
+  });
+
+  it('show throw error when baseUrl is invalid', function() {
+    assert.throws((function() {
+      url.replaceBaseWith('http://localhost:3000', 'foo');
+    }), Error, 'baseUrl "foo" does not have a valid host value. Ensure a protocol is specified (relative-protocols OK).');
   });
 });
 
@@ -27,5 +39,17 @@ describe('url.isFullUrl', function() {
   it('should be a full, valid URL', function() {
     assert.equal(true, url.isFullUrl('http://nbc.com/foo/bar'));
     assert.notEqual(true, url.isFullUrl('nbc.com/foo/bar'));
+  });
+
+  it('should return false on invalid URLs', function() {
+    assert.isFalse(url.isFullUrl(''));
+  });
+
+  it('should return false on invalid data types', function() {
+    // assert.throws(function() {
+    //   url.isFullUrl(1);
+    // }, TypeError, "Parameter 'url' must be a string, not number");
+
+    assert.isFalse(url.isFullUrl(1));
   });
 });
