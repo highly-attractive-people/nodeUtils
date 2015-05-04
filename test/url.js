@@ -46,10 +46,20 @@ describe('url.isFullUrl', function() {
   });
 
   it('should return false on invalid data types', function() {
-    // assert.throws(function() {
-    //   url.isFullUrl(1);
-    // }, TypeError, "Parameter 'url' must be a string, not number");
-
     assert.isFalse(url.isFullUrl(1));
+  });
+});
+
+describe('url.cleanString', function() {
+  it('should clean scalar values as expected', function() {
+    assert.equal(url.cleanString('Quick Brown Fox in a Tree'), 'quick-brown-fox-in-a-tree');
+    assert.equal(url.cleanString('MyFace', 123, false, 'go home'), 'myface-123-false-go-home');
+    assert.equal(url.cleanString('Tom Petty & The Heart Breakers'), 'tom-petty-and-the-heart-breakers');
+    assert.equal(url.cleanString('*NSync'), 'nsync');
+    assert.equal(url.cleanString('20,000 Leagues Under The Sea'), '20-000-leagues-under-the-sea');
+  });
+
+  it('should clean mixed values as expected', function() {
+    assert.equal(url.cleanString('    basketball', ['is', 'my', 'favorite'], {'name':'value'}, '   sport  '), 'basketball-sport');
   });
 });
