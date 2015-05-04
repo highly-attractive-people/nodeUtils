@@ -5,7 +5,7 @@
 
 ## Installation
 ```
-npm install @helior/node-utils --save
+npm install @highly-attractive-people/node-utils --save
 ```
 
 ## Development
