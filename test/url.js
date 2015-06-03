@@ -63,3 +63,17 @@ describe('url.cleanString', function() {
     assert.equal(url.cleanString('    basketball', ['is', 'my', 'favorite'], {'name':'value'}, '   sport  '), 'basketball-sport');
   });
 });
+
+describe('url.cleanPath', function() {
+  it('should clean sets scalar values as expected', function() {
+    assert.equal(url.cleanPath('Quick Brown Fox in a Tree', ['MyFace', 123, false, 'go home']),
+      'quick-brown-fox-in-a-tree/myface-123-false-go-home');
+    assert.equal(url.cleanPath('Tom Petty & The Heart Breakers', '*NSync', '20,000 Leagues Under The Sea'),
+      'tom-petty-and-the-heart-breakers/nsync/20-000-leagues-under-the-sea');
+  });
+
+  it('should clean mixed values as expected', function() {
+    assert.equal(url.cleanPath('    basketball', ['is', 'my', 'favorite'], {'name':'value'}, '   sport  '),
+      'basketball/is-my-favorite/sport');
+  });
+});
